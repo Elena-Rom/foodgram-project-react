@@ -1,14 +1,10 @@
-from rest_framework import serializers
-
-from rest_framework.generics import get_object_or_404
-from rest_framework.validators import UniqueTogetherValidator
-from drf_extra_fields.fields import Base64ImageField
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from recipes.models import (User, Follow,
-                            Tag, Ingredient,
-                            Recipe, IngredientInRecipe,
-                            Favorite, ShoppingList)
-from rest_framework.validators import UniqueValidator
+from drf_extra_fields.fields import Base64ImageField
+from recipes.models import (Favorite, Follow, Ingredient, IngredientInRecipe,
+                            Recipe, ShoppingList, Tag, User)
+from rest_framework import serializers
+from rest_framework.generics import get_object_or_404
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):

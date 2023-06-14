@@ -1,5 +1,5 @@
-from recipes import models
 from django.core.management.base import BaseCommand
+from recipes import models
 
 
 class Command(BaseCommand):
