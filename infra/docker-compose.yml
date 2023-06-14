@@ -27,7 +27,7 @@ services:
 #    build:
 #      context: ../frontend
 #      dockerfile: Dockerfile
-    image: 7elena7/foodgram_backend:latest
+    image: 7elena7/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
 
