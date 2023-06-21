@@ -1,6 +1,5 @@
-from rest_framework import mixins, viewsets
-
 from recipes.models import User
+from rest_framework import mixins, viewsets
 
 from .serializers import UserSerializer
 

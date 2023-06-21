@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib import admin
-
 from recipes.models import Follow, User
 
 
