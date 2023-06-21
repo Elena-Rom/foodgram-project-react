@@ -1,5 +1,6 @@
 # Проект Foodgram
-![Github actions](https://github.com/Elena-Rom/foodgram-project-react/actions/workflows/main.yml/badge.svg)
+
+![finaltask](https://github.com/Elena-Rom/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 
 ### Описание
