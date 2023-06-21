@@ -11,8 +11,8 @@ from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from api.filters import IngredientsFilter, RecipeFilter
 
+from api.filters import IngredientsFilter, RecipeFilter
 from .mixins import ListRetrieveViewSet
 from .permissions import AdminAuthorOrReadOnly
 from .serializers import (FavoriteSerializer, FollowSerializer,
