@@ -7,12 +7,12 @@ from recipes.models import (Favorite, Follow, Ingredient, IngredientInRecipe,
                             Recipe, ShoppingList, Tag, User)
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .filters import IngredientsFilter, RecipeFilter
 from .mixins import ListRetrieveViewSet
+from .pagination import PageLimitPagination
 from .permissions import AdminAuthorOrReadOnly
 from .serializers import (FavoriteSerializer, FollowSerializer,
                           IngredientSerializer, RecipeForFollowersSerializer,
@@ -21,7 +21,7 @@ from .serializers import (FavoriteSerializer, FollowSerializer,
 
 
 class FollowViewSet(UserViewSet):
-    pagination_class = PageNumberPagination
+    pagination_class = PageLimitPagination
 
     @action(detail=True, methods=['post'],
             permission_classes=[IsAuthenticated])
@@ -92,7 +92,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
     serializer_class = RecipeSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = PageLimitPagination
 
     def get_serializer_class(self):
         method = self.request.method
