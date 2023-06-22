@@ -13,3 +13,4 @@ requests==2.26.0
 drf-extra-fields==3.2.1
 flake8==4.0.1
 isort
+django-colorfield

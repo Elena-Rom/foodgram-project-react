@@ -1,4 +1,3 @@
-from django.db import IntegrityError
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -97,53 +96,32 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         method = self.request.method
-        if method == "POST" or method == "PATCH":
+        if method == 'POST' or method == 'PATCH':
             return RecipeSerializer
         return RecipeReadSerializer
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context.update({"request": self.request})
+        context.update({'request': self.request})
         return context
-
-    @staticmethod
-    def post_method_for_action(request, pk, serializers):
-        data = {'user': request.user.id, 'recipe': pk}
-        serializer = serializers(data=data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        if 'shopping_cart' in request.path:
-            try:
-                serializer.save()
-            except IntegrityError:
-                return Response('Рецепт уже в списке покупок')
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        elif 'favorite' in request.path:
-            try:
-                serializer.save()
-            except IntegrityError:
-                return Response('Рецепт уже в избранном')
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['post', 'delete'],
             permission_classes=[IsAuthenticated])
     def favorite(self, request, pk):
         user = request.user
         recipe = get_object_or_404(Recipe, id=pk)
-        if request.method == "POST":
+        if request.method == 'POST':
             if Favorite.objects.filter(user=user, recipe=recipe).exists():
                 return Response(
-                    {"error": "Этот рецепт уже в избранном"},
+                    {'error': 'Этот рецепт уже в избранном'},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
             favorite = Favorite.objects.create(user=user, recipe=recipe)
             serializer = FavoriteSerializer(favorite,
-                                            context={"request": request})
+                                            context={'request': request})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        if request.method == "DELETE":
+        if request.method == 'DELETE':
             favorite = Favorite.objects.filter(user=user, recipe=recipe)
             if favorite.exists():
                 favorite.delete()

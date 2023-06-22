@@ -1,3 +1,4 @@
+from colorfield.fields import ColorField
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -56,7 +57,6 @@ class Follow(models.Model):
     )
 
     class Meta:
-        # ordering = ['-id']
         constraints = [models.UniqueConstraint(
             fields=['user',
                     'author'],
@@ -64,29 +64,22 @@ class Follow(models.Model):
 
 
 class Tag(models.Model):
-    BLUE = "#0000FF"
-    RED = "#FF0000"
-    GREEN = "#008000"
-    YELLOW = "#FFFF00"
 
-    COLOR = [
-        (BLUE, "Синий"),
-        (RED, "Красный"),
-        (GREEN, "Зелёный"),
-        (YELLOW, "Жёлтый"),
+    COLOR_PALETTE = [
+        ('#FFFFFF', 'white',),
+        ('#000000', 'black',),
     ]
     name = models.CharField(
         verbose_name='Название',
         max_length=200,
 
     )
-    color = models.CharField(
+    color = ColorField(
+        samples=COLOR_PALETTE,
         verbose_name='Цвет',
-        max_length=7,
-        choices=COLOR,
         unique=True,
-
     )
+
     slug = models.SlugField(
         verbose_name='Слаг',
         max_length=200,
@@ -104,19 +97,19 @@ class Tag(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(
-        verbose_name="Название ингредиента",
+        verbose_name='Название ингредиента',
         max_length=200,
     )
     measurement_unit = models.CharField(
-        verbose_name="Единица измерения",
+        verbose_name='Единица измерения',
         max_length=200,
     )
 
     class Meta:
-        verbose_name = "Ингредиенты"
+        verbose_name = 'Ингредиенты'
 
     def __str__(self):
-        return f"{self.name}, {self.measurement_unit}"
+        return f'{self.name}, {self.measurement_unit}'
 
 
 class Recipe(models.Model):
@@ -188,7 +181,7 @@ class IngredientInRecipe(models.Model):
         null=True,
     )
     amount = models.PositiveIntegerField(
-        verbose_name="Количество",
+        verbose_name='Количество',
         null=True,
         validators=[MinValueValidator(
             1,
@@ -210,15 +203,15 @@ class Favorite(models.Model):
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        verbose_name="Рецепт",
-        related_name="favorite",
+        verbose_name='Рецепт',
+        related_name='favorite',
         null=True,
     )
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name="Пользователь",
-        related_name="favorite",
+        verbose_name='Пользователь',
+        related_name='favorite',
     )
 
     class Meta:
@@ -226,7 +219,7 @@ class Favorite(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return f"{self.user} добавил {self.recipe} в избранное"
+        return f'{self.user} добавил {self.recipe} в избранное'
 
 
 class ShoppingList(models.Model):
@@ -250,7 +243,7 @@ class ShoppingList(models.Model):
     )
 
     class Meta:
-        verbose_name = "Список покупок"
+        verbose_name = 'Список покупок'
         verbose_name_plural = verbose_name
         constraints = [models.UniqueConstraint(
             fields=['user',
