@@ -111,11 +111,11 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def create_ingredients(self, ingredients, recipe):
         for ingredient in ingredients:
-            IngredientInRecipe.objects.bulk_create([
-                IngredientInRecipe(recipe=recipe),
-                IngredientInRecipe(ingredients=ingredient['id']),
-                IngredientInRecipe(amount=ingredient['amount']),
-            ])
+            IngredientInRecipe.objects.bulk_create(
+                recipe=recipe,
+                ingredients=ingredient['id'],
+                amount=ingredient['amount']
+            )
 
     @transaction.atomic
     def create(self, validated_data):
